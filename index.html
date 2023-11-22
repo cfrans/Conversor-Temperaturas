@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Conversor de Temperaturas</title>
+  <link rel="icon" type="image/png"
+    href="https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_42-256.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+      color: #fff;
+      background-color: #222;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    #conteudo {
+      background-color: #333;
+      text-align: center;
+      width: 480px;
+      padding: 20px;
+      border: 2px solid #444;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    }
+
+    #imagemTermometro {
+      width: 115px;
+      height: 115px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #temperatura {
+      width: 4em;
+      padding: 5px;
+      font-size: 48px;
+      color: #fff;
+      background-color: #444;
+      border: none;
+      text-align: center;
+      -webkit-appearance: none;
+      margin: 0;
+      -moz-appearance: textfield;
+    }
+
+    #botaoConverter,
+    #botaoLimpar {
+      display: block;
+      width: 270px;
+      padding: 12px;
+      margin: 10px auto;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.4s;
+    }
+
+    #botaoConverter {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #botaoConverter:hover {
+      background-color: #368d3b;
+    }
+
+    #botaoLimpar {
+      background-color: #FF0000;
+      color: white;
+    }
+
+    #botaoLimpar:hover {
+      background-color: #af0202;
+    }
+
+    #botaoConverter:active,
+    #botaoLimpar:active {
+      transform: translateY(2px);
+    }
+
+    #resultado {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    #resultado span {
+      font-size: 36px;
+    }
+
+    #rodape {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    /* RESPONSIVO */
+
+    @media screen and (max-width: 700px) {
+      body {
+        overflow: scroll;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      #conteudo {
+        width: 350px;
+      }
+
+      #imagemTermometro {
+        width: 90px;
+        height: 90px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="conteudo">
+    <img src="https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_42-256.png"
+      id="imagemTermometro" alt="Termômetro">
+    <h1>Conversor de Temperaturas</h1>
+
+    <form id="inputTemperatura">
+      <label for="celsiusParaFahrenheit">
+        <input type="radio" id="celsiusParaFahrenheit" name="tipoConversao" value="celsiusParaFahrenheit" checked>
+        Celsius para Fahrenheit
+      </label>
+
+      <label for="fahrenheitParaCelsius">
+        <input type="radio" id="fahrenheitParaCelsius" name="tipoConversao" value="fahrenheitParaCelsius">
+        Fahrenheit para Celsius
+      </label>
+
+      <label for="temperatura" style="font-size: 20px;">Temperatura</label>
+      <input type="number" id="temperatura" placeholder="0000" style="text-align: center;" required>
+
+      <br><br>
+
+      <button type="submit" id="botaoConverter">Converter</button>
+      <button type="reset" id="botaoLimpar">Limpar</button>
+    </form>
+
+    <div id="resultado">
+      <p id="textoResultado"></p>
+    </div>
+
+    <div id="rodape">
+      <p>Projeto Introdução a Web - Caio Franson HT301887</p>
+    </div>
+  </div>
+
+  <script>
+    var head = document.head || document.getElementsByTagName("head")[0];
+
+    document.getElementById("inputTemperatura").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var tipoConversao = document.querySelector('input[name="tipoConversao"]:checked').value;
+      var temperatura = document.getElementById("temperatura").value;
+      var saidaResultado = document.getElementById("textoResultado");
+
+      if (tipoConversao === "celsiusParaFahrenheit") {
+        var temperaturaConvertida = (temperatura * 1.8) + 32;
+        var fraseFinal = '<span>' + temperatura + '°c</span> equivalem a <span>' + temperaturaConvertida.toFixed(temperaturaConvertida % 1 === 0 ? 0 : 1) + '°f</span>';
+        saidaResultado.innerHTML = fraseFinal;
+      } else if (tipoConversao === "fahrenheitParaCelsius") {
+        var temperaturaConvertida = (temperatura - 32) / 1.8;
+        var fraseFinal = '<span>' + temperatura + '°f</span> equivalem a <span>' + temperaturaConvertida.toFixed(temperaturaConvertida % 1 === 0 ? 0 : 1) + '°c</span>';
+        saidaResultado.innerHTML = fraseFinal;
+      }
+    });
+
+    document.getElementById("inputTemperatura").addEventListener("reset", function () {
+      document.getElementById("textoResultado").textContent = "";
+    });
+  </script>
+
+</body>
+
+</html>
